@@ -1,4 +1,4 @@
-import AlexaTopOneMillionUrls
+from dataset import AlexaTopOneMillionUrls
 from environment import BrowserEnvironment
 
 

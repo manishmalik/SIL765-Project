@@ -1,12 +1,12 @@
-from WebDriverSingleton import WebDriverSingleton
-import time
+from webdriver.WebDriverSingleton import WebDriverSingleton
+
 
 class BrowserEnvironment:
     """
     Interface for an environment that can open new tabs and switch tabs by URL.
     """
-    def __init__(self):
-        self.driver = WebDriverSingleton()
+    def __init__(self, driver: WebDriverSingleton):
+        self.driver = driver
         self.url_to_tab_map = {}
 
     def open_new_tab(self, url):
@@ -29,5 +29,6 @@ class BrowserEnvironment:
             self.driver.switch_to.window(self.driver.window_handles[tab_index])
             self.driver.close()
             del self.url_to_tab_map[url]
+            self.driver.switch_to.window(self.driver.window_handles[0])
         else:
             raise ValueError("URL '{}' not found in open tabs.".format(url))

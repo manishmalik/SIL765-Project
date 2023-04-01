@@ -1,4 +1,4 @@
-import AlexaTopOneMillionUrls
+from dataset import AlexaTopOneMillionUrls
 from experiments.IExperiment import IExperiment
 
 
@@ -8,7 +8,8 @@ class ForeGroundExperiment(IExperiment):
     """
     current_url = None
 
-    def __init__(self, browser_env, alexa_top_1_mil: AlexaTopOneMillionUrls):
+    def __init__(self, browser_env, alexa_top_1_mil: AlexaTopOneMillionUrls, driver):
+        self.driver = driver
         super().__init__(browser_env, alexa_top_1_mil)
 
     def prepare_experiment(self):
@@ -18,6 +19,7 @@ class ForeGroundExperiment(IExperiment):
         for url in self.alexa_dataset.get_top_urls(10):
             self.current_url = url
             self.prepare_experiment()
+            self.clean_up()
 
     def clean_up(self):
-        pass
+        self.browser_env.close_tab(self.current_url)

