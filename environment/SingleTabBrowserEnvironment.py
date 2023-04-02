@@ -11,4 +11,4 @@ class SingleTabBrowserEnvironment(BrowserEnvironment):
     def __init__(self, data_source: AlexaTopOneMillionUrls, driver: WebDriverSingleton):
         super().__init__(driver)
         for url in data_source.get_random_urls(1):
-            self.open_new_tab(url)
+            self.open_new_tab('http://' + url)

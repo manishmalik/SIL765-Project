@@ -1,3 +1,7 @@
+from urllib.parse import urlparse
+
+from urllib3.util import Url
+
 from webdriver.WebDriverSingleton import WebDriverSingleton
 
 
@@ -7,28 +11,40 @@ class BrowserEnvironment:
     """
     def __init__(self, driver: WebDriverSingleton):
         self.driver = driver
-        self.url_to_tab_map = {}
 
     def open_new_tab(self, url):
         self.driver.execute_script('window.open("");')
-        tab_index = len(self.driver.window_handles) - 1
-        self.driver.switch_to.window(self.driver.window_handles[tab_index])
-        self.driver.get('http://' + url)
-        self.url_to_tab_map[url] = tab_index
+        new_tab_handle = self.driver.window_handles[-1]
+        self.driver.switch_to.window(new_tab_handle)
+        self.driver.get(url)
+
+    def urls_equal(self, url1, url2):
+        """
+        Compares two URLs and returns True if they are considered equivalent.
+        """
+        parsed_url1 = urlparse(url1)
+        parsed_url2 = urlparse(url2)
+        domain1 = parsed_url1.netloc.replace("www.", "")
+        domain2 = parsed_url2.netloc.replace("www.", "")
+
+        return domain1 == domain2
 
     def switch_tab(self, url):
-        if url in self.url_to_tab_map:
-            tab_index = self.url_to_tab_map[url]
+        for tab_index in range(len(self.driver.window_handles)):
             self.driver.switch_to.window(self.driver.window_handles[tab_index])
-        else:
-            raise ValueError("URL '{}' not found in open tabs.".format(url))
+            current_url = self.driver.current_url
+            if 'data:,' == current_url:
+                continue
+            if current_url.startswith('file:') and current_url == url:
+                self.driver.switch_to.window(self.driver.window_handles[tab_index])
+                return
+
+            if self.urls_equal(current_url, url):
+                self.driver.switch_to.window(self.driver.window_handles[tab_index])
+                return
+        raise ValueError("URL '{}' not found in open tabs.".format(url))
 
     def close_tab(self, url):
-        if url in self.url_to_tab_map:
-            tab_index = self.url_to_tab_map[url]
-            self.driver.switch_to.window(self.driver.window_handles[tab_index])
-            self.driver.close()
-            del self.url_to_tab_map[url]
-            self.driver.switch_to.window(self.driver.window_handles[0])
-        else:
-            raise ValueError("URL '{}' not found in open tabs.".format(url))
+        self.switch_tab(url)
+        self.driver.close()
+        self.driver.switch_to.window(self.driver.window_handles[0])

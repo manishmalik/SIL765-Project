@@ -5,7 +5,7 @@ from dataset.FileAppender import FileAppender
 from experiments.IExperiment import IExperiment
 
 
-class ForeGroundExperiment(IExperiment):
+class BackGroundExperiment(IExperiment):
     """
     Interface for an environment that can open new tabs and switch tabs by URL.
     """
@@ -14,7 +14,7 @@ class ForeGroundExperiment(IExperiment):
 
     def __init__(self, browser_env, alexa_top_1_mil: AlexaTopOneMillionUrls, driver):
         self.driver = driver
-        self.file = FileAppender('dataset/alexa-top-1-million/foreground_experiment.csv')
+        self.file = FileAppender('dataset/alexa-top-1-million/background_experiment.csv')
         super().__init__(browser_env, alexa_top_1_mil)
 
     def prepare_experiment(self):
@@ -35,7 +35,7 @@ class ForeGroundExperiment(IExperiment):
         return median
 
     def run_experiment(self):
-        print("Running Foreground Experiment:")
+        print("Running Background Experiment:")
         count = 1
         for url in self.alexa_dataset.get_top_urls(self.TOP_URL_COUNT):
             self.current_url = url
@@ -60,8 +60,6 @@ class ForeGroundExperiment(IExperiment):
             compute_btn = self.driver.find_element("id", "compute_btn")
             compute_btn.click()
 
-            # switch to foreground tab
-            self.browser_env.switch_tab('http://' + self.current_url)
             time.sleep(22)
 
             # switch back to attack page
@@ -79,7 +77,7 @@ class ForeGroundExperiment(IExperiment):
 
         self.file.complete()
 
-        print("Foreground Experiment completed.")
+        print("Background Experiment completed.")
 
     def clean_up(self):
         self.browser_env.close_tab('http://' + self.current_url)

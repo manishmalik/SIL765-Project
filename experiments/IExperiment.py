@@ -6,7 +6,7 @@ class IExperiment:
     """
     Interface for an environment that can open new tabs and switch tabs by URL.
     """
-
+    ATTACK_URL = 'file:///C:/Users/manis/Documents/GitHub/SIL765-Project/empty.html'
     def __init__(self, browser_env: BrowserEnvironment, alexa_top_1_mil: AlexaTopOneMillionUrls):
         self.browser_env = browser_env
         self.alexa_dataset = alexa_top_1_mil
