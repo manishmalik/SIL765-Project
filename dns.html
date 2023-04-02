@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DNS Lookup Time</title>
+</head>
+<body>
+	<h1>DNS Lookup Time</h1>
+	<label for="url">Enter URL:</label>
+	<input type="text" id="url">
+	<button onclick="measureLookupTime()" id="compute_btn">Submit</button>
+	<br><br>
+	<p id="result"></p>
+
+	<script>
+		function measureLookupTime() {
+			var url = document.getElementById("url").value;
+			var img = new Image();
+			var start = new Date().getTime();
+			img.onload = function() {
+				var end = new Date().getTime();
+				var time = end - start;
+				document.getElementById("result").innerHTML = time;
+			};
+			img.src = "http://" + url + "/favicon.ico?" + start;
+		}
+	</script>
+</body>
+</html>

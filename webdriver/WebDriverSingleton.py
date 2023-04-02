@@ -15,5 +15,6 @@ class WebDriverSingleton:
             options.add_argument('--disable-infobars')
             options.add_argument('--no-sandbox')
             options.add_argument('--disable-dev-shm-usage')
+            options.add_argument('--dns-prefetch-disable')
             cls._instance = webdriver.Chrome(options=options)
         return cls._instance

@@ -12,9 +12,10 @@ class ForeGroundExperiment(IExperiment):
     current_url = None
     TOP_URL_COUNT = 1000
     START_IDX = 64
+
     def __init__(self, browser_env, alexa_top_1_mil: AlexaTopOneMillionUrls, driver):
         self.driver = driver
-        self.file = FileAppender('dataset/alexa-top-1-million/foreground_experiment.csv')
+        self.file = FileAppender('dataset/experiment_results/foreground_experiment.csv')
         super().__init__(browser_env, alexa_top_1_mil)
 
     def prepare_experiment(self):

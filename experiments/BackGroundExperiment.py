@@ -14,7 +14,7 @@ class BackGroundExperiment(IExperiment):
     START_IDX = 0
     def __init__(self, browser_env, alexa_top_1_mil: AlexaTopOneMillionUrls, driver):
         self.driver = driver
-        self.file = FileAppender('dataset/alexa-top-1-million/background_experiment.csv')
+        self.file = FileAppender('dataset/experiment_results/background_experiment.csv')
         super().__init__(browser_env, alexa_top_1_mil)
 
     def prepare_experiment(self):
