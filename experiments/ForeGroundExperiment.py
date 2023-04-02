@@ -11,7 +11,7 @@ class ForeGroundExperiment(IExperiment):
     """
     current_url = None
     TOP_URL_COUNT = 1000
-    START_IDX = 64
+    START_IDX = 328
 
     def __init__(self, browser_env, alexa_top_1_mil: AlexaTopOneMillionUrls, driver):
         self.driver = driver
@@ -75,9 +75,9 @@ class ForeGroundExperiment(IExperiment):
                 print('{}/{}: {}'.format(count, self.TOP_URL_COUNT, res_str))
                 self.file.append(res_str)
 
+            except Exception as e:
                 # clean up environment post experiment
                 self.clean_up()
-            except Exception as e:
                 print("An error occurred while processing the URL {}: {}".format(url, e))
             count = count + 1
 

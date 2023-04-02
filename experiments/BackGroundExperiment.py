@@ -72,9 +72,9 @@ class BackGroundExperiment(IExperiment):
                 print('{}/{}: {}'.format(count, self.TOP_URL_COUNT, res_str))
                 self.file.append(res_str)
 
+            except Exception as e:
                 # clean up environment post experiment
                 self.clean_up()
-            except Exception as e:
                 print("An error occurred while processing the URL {}: {}".format(url, e))
             count = count + 1
 

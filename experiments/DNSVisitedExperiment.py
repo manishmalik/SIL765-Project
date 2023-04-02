@@ -52,7 +52,7 @@ class DNSVisitedExperiment(IExperiment):
                 # find the compute button and click it
                 compute_btn = self.driver.find_element(By.ID, "compute_btn")
                 compute_btn.click()
-                time.sleep(3)
+                time.sleep(5)
 
                 result_el = self.driver.find_element(By.ID, "result")
                 result = result_el.text

@@ -47,7 +47,10 @@ class BrowserEnvironment:
         raise ValueError("URL '{}' not found in open tabs.".format(url))
 
     def close_tab(self, url):
-        self.switch_tab(url)
-        self.driver.close()
-        self.driver.switch_to.window(self.driver.window_handles[0])
-        del self.url_map[url]
+        try:
+            self.switch_tab(url)
+            self.driver.close()
+            self.driver.switch_to.window(self.driver.window_handles[0])
+            del self.url_map[url]
+        except Exception as e:
+            print("An error occurred while processing the URL {}: {}".format(url, e))
