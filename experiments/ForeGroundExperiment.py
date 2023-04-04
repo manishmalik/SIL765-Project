@@ -11,7 +11,7 @@ class ForeGroundExperiment(IExperiment):
     """
     current_url = None
     TOP_URL_COUNT = 1000
-    START_IDX = 328
+    START_IDX = 332
 
     def __init__(self, browser_env, alexa_top_1_mil: AlexaTopOneMillionUrls, driver):
         self.driver = driver
@@ -74,6 +74,8 @@ class ForeGroundExperiment(IExperiment):
                 res_str = '{}\t{}'.format(url, self.find_median(results))
                 print('{}/{}: {}'.format(count, self.TOP_URL_COUNT, res_str))
                 self.file.append(res_str)
+                # clean up environment post experiment
+                self.clean_up()
 
             except Exception as e:
                 # clean up environment post experiment
