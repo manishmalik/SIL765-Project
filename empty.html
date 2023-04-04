@@ -16,7 +16,7 @@
 			var vtmSite = document.getElementById("victim_site").value;
 			var resultsDiv = document.getElementById("results");
 			resultsDiv.innerHTML = "";
-			for (var i = 1; i <= 10; i++) {
+			for (var i = 1; i <= 1; i++) {
 				setTimeout(function() {
 					var time_0 = performance.now();
 					var iframe_ref = document.createElement("iframe");
@@ -36,7 +36,7 @@
 						document.body.appendChild(iframe_vtm);
 					}
 					document.body.appendChild(iframe_ref);
-				}, i * 2000); // wait for 2 seconds before performing the computation
+				}, i * 4000); // wait for 4 seconds before performing the computation
 			}
 		});
 	</script>

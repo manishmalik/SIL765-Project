@@ -11,7 +11,7 @@ class ForeGroundExperiment(IExperiment):
     """
     current_url = None
     TOP_URL_COUNT = 1000
-    START_IDX = 332
+    START_IDX = 0
 
     def __init__(self, browser_env, alexa_top_1_mil: AlexaTopOneMillionUrls, driver):
         self.driver = driver
@@ -64,7 +64,7 @@ class ForeGroundExperiment(IExperiment):
 
                 # switch to foreground tab
                 self.browser_env.switch_tab('http://' + self.current_url)
-                time.sleep(22)
+                time.sleep(8)
 
                 # switch back to attack page
                 self.browser_env.switch_tab(self.ATTACK_URL)

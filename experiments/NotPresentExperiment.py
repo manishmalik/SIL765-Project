@@ -61,7 +61,7 @@ class NotPresentExperiment(IExperiment):
                 compute_btn = self.driver.find_element("id", "compute_btn")
                 compute_btn.click()
 
-                time.sleep(22)
+                time.sleep(8)
 
                 # switch back to attack page
                 self.browser_env.switch_tab(self.ATTACK_URL)

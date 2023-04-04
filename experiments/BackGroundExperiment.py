@@ -11,7 +11,7 @@ class BackGroundExperiment(IExperiment):
     """
     current_url = None
     TOP_URL_COUNT = 1000
-    START_IDX = 511
+    START_IDX = 0
     def __init__(self, browser_env, alexa_top_1_mil: AlexaTopOneMillionUrls, driver):
         self.driver = driver
         self.file = FileAppender('dataset/experiment_results/background_experiment.csv')
@@ -61,7 +61,7 @@ class BackGroundExperiment(IExperiment):
                 compute_btn = self.driver.find_element("id", "compute_btn")
                 compute_btn.click()
 
-                time.sleep(22)
+                time.sleep(8)
 
                 # switch back to attack page
                 self.browser_env.switch_tab(self.ATTACK_URL)
