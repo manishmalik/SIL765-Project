@@ -11,7 +11,7 @@ class ForeGroundExperiment(IExperiment):
     """
     current_url = None
     TOP_URL_COUNT = 1000
-    START_IDX = 939
+    START_IDX = 171
 
     def __init__(self, browser_env, alexa_top_1_mil: AlexaTopOneMillionUrls, driver):
         self.driver = driver
@@ -48,7 +48,7 @@ class ForeGroundExperiment(IExperiment):
                 # switch to attack site tab
                 self.browser_env.switch_tab(self.ATTACK_URL)
 
-                ref_site_url = "http://google.com:1"
+                ref_site_url = 'http://' + self.browser_env.get_opened_urls()[0] + ':1'
                 victim_site_url = 'http://' + url + ':1'
 
                 ref_site = self.driver.find_element("id", "reference_site")
