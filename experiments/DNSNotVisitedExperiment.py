@@ -58,6 +58,10 @@ class DNSNotVisitedExperiment(IExperiment):
                 result_el = self.driver.find_element(By.ID, "result")
                 result = result_el.text
 
+                if result == "Favicon not found":
+                    print('no favcon in this url {}'.format(url))
+                    result = ''
+
                 res_str = '{}\t{}'.format(url, result)
                 print('{}/{}: {}'.format(count, self.TOP_URL_COUNT, res_str))
                 self.file.append(res_str)

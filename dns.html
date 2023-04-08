@@ -21,7 +21,10 @@
 				var time = end - start;
 				document.getElementById("result").innerHTML = time;
 			};
-			img.src = "http://" + url + "/favicon.ico?" + start;
+			img.onerror = function() {
+				document.getElementById("result").innerHTML = "Favicon not found";
+			};
+			img.src = "http://" + url + "/favicon.ico";
 		}
 	</script>
 </body>

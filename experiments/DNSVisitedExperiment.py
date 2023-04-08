@@ -14,6 +14,7 @@ class DNSVisitedExperiment(IExperiment):
     current_url = None
     TOP_URL_COUNT = 1000
     START_IDX = 0
+
     def __init__(self, browser_env, alexa_top_1_mil: AlexaTopOneMillionUrls, driver):
         self.driver = driver
         self.file = FileAppender('dataset/experiment_results/dns_visited_experiment.csv')
@@ -25,11 +26,9 @@ class DNSVisitedExperiment(IExperiment):
         self.driver.get("chrome://net-internals/#dns")
         self.driver.find_element(By.ID, 'dns-view-clear-cache').click()
 
-        #open victim
-        self.browser_env.open_new_tab('http://' + self.current_url)
-
-        # open attack page
-        self.browser_env.open_new_tab(self.ATTACK_URL)
+        # open victim
+        return self.browser_env.open_new_tab('http://' + self.current_url) and \
+               self.browser_env.open_new_tab(self.ATTACK_URL)
 
     def run_experiment(self):
         print("Running DNS Visited Experiment:")
@@ -39,7 +38,9 @@ class DNSVisitedExperiment(IExperiment):
                 self.current_url = url
 
                 # prepare environment for experiment
-                self.prepare_experiment()
+                if not self.prepare_experiment():
+                    self.clean_up()
+                    continue
 
                 # switch to attack site tab
                 self.browser_env.switch_tab(self.ATTACK_URL)
@@ -56,6 +57,10 @@ class DNSVisitedExperiment(IExperiment):
 
                 result_el = self.driver.find_element(By.ID, "result")
                 result = result_el.text
+
+                if result == "Favicon not found":
+                    print('no favcon in this url {}'.format(url))
+                    result = ''
 
                 res_str = '{}\t{}'.format(url, result)
                 print('{}/{}: {}'.format(count, self.TOP_URL_COUNT, res_str))

@@ -1,4 +1,5 @@
 import os
+
 import matplotlib.pyplot as plt
 
 dir_prefix = "C:/Users/manis/Documents/GitHub/SIL765-Project/dataset/experiment_results/"
@@ -37,19 +38,6 @@ for i, file in enumerate(csv_files):
 
     # Plot the data with a different color
     ax.scatter(*zip(*data), c=color_map[file], label=file)
-
-# # Add the rank for each point
-# for i, file in enumerate(csv_files):
-#     data = []
-#     with open(os.path.join(dir_prefix, file), 'r') as f:
-#         for line in f:
-#             values = line.strip().split(',')
-#             rank = rank_data.get(values[0], -1)
-#             if rank != -1:
-#                 data.append((float(values[1]), rank))
-#
-#     # Plot the data with a different color
-#     ax.scatter(*zip(*data), c=color_map(i))
 
 # Set the x-axis to be the load time and the y-axis to be the rank
 ax.set_xlabel('Load Time (seconds)')

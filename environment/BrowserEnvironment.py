@@ -1,7 +1,5 @@
 from urllib.parse import urlparse
 
-from urllib3.util import Url
-
 from webdriver.WebDriverSingleton import WebDriverSingleton
 
 
@@ -17,8 +15,16 @@ class BrowserEnvironment:
         self.driver.execute_script('window.open("");')
         new_tab_handle = self.driver.window_handles[-1]
         self.driver.switch_to.window(new_tab_handle)
-        self.driver.get(url)
-        self.url_map[url] = self.driver.current_url
+        try:
+            self.driver.get(url)
+            self.url_map[url] = self.driver.current_url
+            return True
+        except Exception as e:
+            self.driver.close()
+            self.driver.switch_to.window(self.driver.window_handles[0])
+            print("An error occurred while opening the URL {}: {}".format(url, e))
+            return False
+
 
     def urls_equal(self, url1, url2):
         """
@@ -53,4 +59,4 @@ class BrowserEnvironment:
             self.driver.switch_to.window(self.driver.window_handles[0])
             del self.url_map[url]
         except Exception as e:
-            print("An error occurred while processing the URL {}: {}".format(url, e))
+            print("An error occurred while closing processing the URL {}: {}".format(url, e))

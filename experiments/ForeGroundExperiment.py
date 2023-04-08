@@ -19,8 +19,8 @@ class ForeGroundExperiment(IExperiment):
         super().__init__(browser_env, alexa_top_1_mil)
 
     def prepare_experiment(self):
-        self.browser_env.open_new_tab('http://' + self.current_url)
-        self.browser_env.open_new_tab(self.ATTACK_URL)
+        return self.browser_env.open_new_tab('http://' + self.current_url) and \
+               self.browser_env.open_new_tab(self.ATTACK_URL)
 
     def find_median(self, double_list):
         double_list = [float(x) for x in double_list]  # Convert string values to float
@@ -43,7 +43,9 @@ class ForeGroundExperiment(IExperiment):
                 self.current_url = url
 
                 # prepare environment for experiment
-                self.prepare_experiment()
+                if not self.prepare_experiment():
+                    self.clean_up()
+                    continue
 
                 # switch to attack site tab
                 self.browser_env.switch_tab(self.ATTACK_URL)
