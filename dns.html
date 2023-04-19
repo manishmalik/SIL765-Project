@@ -10,7 +10,7 @@
 	<button onclick="measureLookupTime()" id="compute_btn">Submit</button>
 	<br><br>
 	<p id="result"></p>
-
+	<p id="speed"></p>
 	<script>
 		function measureLookupTime() {
 			var url = document.getElementById("url").value;
@@ -19,12 +19,39 @@
 			img.onload = function() {
 				var end = new Date().getTime();
 				var time = end - start;
-				document.getElementById("result").innerHTML = time;
+
+				measureNetworkSpeed(function(speed) {
+					if (speed) {
+						var fileSize = img.width * img.height / 2; // assume a 2-bit image format
+						var downloadTime = fileSize / speed;
+						time -= downloadTime;
+					}
+					document.getElementById("result").innerHTML = time;
+				});
 			};
 			img.onerror = function() {
 				document.getElementById("result").innerHTML = "Favicon not found";
 			};
 			img.src = "http://" + url + "/favicon.ico";
+		}
+
+		function measureNetworkSpeed(callback) {
+		  var url = 'https://www.cloudflare.com/robots.txt';
+		  var xhr = new XMLHttpRequest();
+		  xhr.open('GET', 'https://api.codetabs.com/v1/proxy?quest=' + url, true);
+		  var start = performance.now();
+		  xhr.onreadystatechange = function() {
+			if (xhr.readyState === 4 && xhr.status === 200) {
+			  var end = performance.now();
+			  var duration = (end - start) / 1000; // duration in seconds
+			  var speed = xhr.response.length / duration; // speed in Mbps
+			  document.getElementById("speed").innerHTML = (speed / 1000000 * 8).toFixed(2) + " Mbps";
+			  callback(speed);
+			} else {
+			  callback(null)
+			}
+		  };
+		  xhr.send();
 		}
 	</script>
 </body>

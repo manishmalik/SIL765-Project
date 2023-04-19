@@ -40,7 +40,7 @@ for i, file in enumerate(csv_files):
     ax.scatter(*zip(*data), c=color_map[file], label=file)
 
 # Set the x-axis to be the load time and the y-axis to be the rank
-ax.set_xlabel('Load Time (seconds)')
+ax.set_xlabel('Load Time (ms)')
 ax.set_ylabel('Rank')
 ax.legend()
 
